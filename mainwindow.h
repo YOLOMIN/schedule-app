@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "database.h"
+#include <QCloseEvent>
+#include <QSystemTrayIcon>
+#include <QMenu>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,8 +20,18 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
+private slots:
+    void onAddClicked();   // 点击「添加」按钮
+    void refreshList();    // 从数据库重新加载列表到界面
+    void checkDueTasks();
 
 private:
     Ui::MainWindow *ui;
+    Database m_db;         // 数据库对象（成员，生命周期跟随窗口）
+    QSystemTrayIcon *m_tray;
+    QMenu *m_trayMenu;
 };
 #endif // MAINWINDOW_H
