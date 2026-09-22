@@ -6,6 +6,7 @@
 #include <QCloseEvent>
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include <QSet>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,5 +34,6 @@ private:
     Database m_db;         // 数据库对象（成员，生命周期跟随窗口）
     QSystemTrayIcon *m_tray;
     QMenu *m_trayMenu;
+    QSet<int> m_notifiedIds;    //已提醒过的任务id
 };
 #endif // MAINWINDOW_H

@@ -129,10 +129,21 @@ void MainWindow::checkDueTasks()
     QVector<Task> tasks = m_db.allTasks();
 
     for(const Task &t:tasks){
+
+        if(t.done) continue;
+
         QDateTime due = QDateTime::fromString(t.dueTime,"yyyy-MM-dd HH:mm:ss");
+
+        if(due > now) continue;
+
+        if(m_notifiedIds.contains(t.id))
+            continue;
+
         if(due <= now && !t.done){
             QString msg = QString("任务%1，的截至时间为%2，当前时间为%3").arg(t.title).arg(t.dueTime).arg(now.toString());
             QMessageBox::warning(this, "提示", msg);
+
+            m_notifiedIds.insert(t.id);
         }
     }
 }
