@@ -9,6 +9,7 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QStyle>
+#include <QAction>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     refreshList();
 
     QTimer *timer =new QTimer(this);
-    timer->start(6000);
+    timer->start(60000);
     connect(timer,&QTimer::timeout,this,&MainWindow::checkDueTasks);
 
     QIcon tempIcon = QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation);
@@ -139,11 +140,11 @@ void MainWindow::checkDueTasks()
         if(m_notifiedIds.contains(t.id))
             continue;
 
-        if(due <= now && !t.done){
-            QString msg = QString("任务%1，的截至时间为%2，当前时间为%3").arg(t.title).arg(t.dueTime).arg(now.toString());
-            QMessageBox::warning(this, "提示", msg);
 
-            m_notifiedIds.insert(t.id);
-        }
+        QString msg = QString("任务%1，的截至时间为%2，当前时间为%3").arg(t.title).arg(t.dueTime).arg(now.toString());
+        QMessageBox::warning(this, "提示", msg);
+
+        m_notifiedIds.insert(t.id);
+
     }
 }
