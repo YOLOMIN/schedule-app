@@ -10,6 +10,8 @@
 #include <QTimer>
 #include <QStyle>
 #include <QAction>
+#include <QFile>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -56,6 +58,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->sendButton,&QPushButton::clicked,this,&MainWindow::onSendClicked);
 
     connect(m_client,&OpenClawClient::replyReceived,this,&MainWindow::onReplyReceived);
+
+    loadTodayPlan();
+
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
@@ -68,6 +74,21 @@ void MainWindow::closeEvent(QCloseEvent *event)
     hide();
     event->ignore();
 
+}
+
+void MainWindow::loadTodayPlan()
+{
+    QString path = "C:/Users/Administrator/.openclaw/workspace/memory/reminder_today.txt";
+
+    QFile file(path);
+    if(file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        QTextStream in(&file);
+        ui->planDisplay->setPlainText(in.readAll());
+        file.close();
+
+    }else{
+        ui->planDisplay->setPlainText("暂无今日计划（找不到文件）");
+    }
 }
 
 void MainWindow::onAddClicked()

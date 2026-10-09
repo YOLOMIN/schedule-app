@@ -24,6 +24,7 @@ public:
     ~MainWindow() override;
 protected:
     void closeEvent(QCloseEvent *event) override;
+    void loadTodayPlan();
 
 private slots:
     void onAddClicked();   // 点击「添加」按钮
