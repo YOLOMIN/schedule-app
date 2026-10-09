@@ -7,6 +7,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QSet>
+#include "openclawclient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,6 +29,8 @@ private slots:
     void onAddClicked();   // 点击「添加」按钮
     void refreshList();    // 从数据库重新加载列表到界面
     void checkDueTasks();
+    void onSendClicked();
+    void onReplyReceived(const QString &reply);
 
 private:
     Ui::MainWindow *ui;
@@ -35,5 +38,7 @@ private:
     QSystemTrayIcon *m_tray;
     QMenu *m_trayMenu;
     QSet<int> m_notifiedIds;    //已提醒过的任务id
+    OpenClawClient *m_client;
+
 };
 #endif // MAINWINDOW_H

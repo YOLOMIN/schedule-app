@@ -6,44 +6,136 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>974</width>
+    <height>599</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>日程规划</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <widget class="QListWidget" name="navList">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <item>
-       <widget class="QLineEdit" name="titleEdit">
-        <property name="placeholderText">
-         <string>输入日程标题…</string>
-        </property>
-       </widget>
+       <property name="text">
+        <string>日程</string>
+       </property>
       </item>
       <item>
-       <widget class="QDateTimeEdit" name="dueTimeEdit"/>
+       <property name="text">
+        <string>对话</string>
+       </property>
       </item>
       <item>
-       <widget class="QPushButton" name="addButton">
-        <property name="text">
-         <string>添加</string>
-        </property>
-       </widget>
+       <property name="text">
+        <string>今日计划</string>
+       </property>
       </item>
-     </layout>
+      <item>
+       <property name="text">
+        <string>长期任务</string>
+       </property>
+      </item>
+     </widget>
     </item>
     <item>
-     <widget class="QListWidget" name="taskList"/>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLineEdit" name="titleEdit">
+            <property name="placeholderText">
+             <string>输入日程标题…</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateTimeEdit" name="dueTimeEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="addButton">
+            <property name="text">
+             <string>添加</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QListWidget" name="taskList"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTextEdit" name="chatDisplay">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="chatInput"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="sendButton">
+            <property name="text">
+             <string>发送</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>974</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>navList</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>stackedWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>61</x>
+     <y>74</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>79</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

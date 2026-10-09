@@ -50,6 +50,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_tray->setContextMenu(m_trayMenu);
     m_tray->show();
+
+    m_client = new OpenClawClient(this);
+
+    connect(ui->sendButton,&QPushButton::clicked,this,&MainWindow::onSendClicked);
+
+    connect(m_client,&OpenClawClient::replyReceived,this,&MainWindow::onReplyReceived);
 }
 
 MainWindow::~MainWindow()
@@ -147,4 +153,24 @@ void MainWindow::checkDueTasks()
         m_notifiedIds.insert(t.id);
 
     }
+}
+
+void MainWindow::onSendClicked()
+{
+    QString text = ui->chatInput->text().trimmed();
+
+    if(text.isEmpty())
+        return ;
+    ui->chatDisplay->append("我："+text);
+
+    ui->chatInput->clear();
+
+    m_client->sendMessage(text);
+
+
+}
+
+void MainWindow::onReplyReceived(const QString &reply)
+{
+    ui->chatDisplay->append("OpenClaw:"+reply);
 }
