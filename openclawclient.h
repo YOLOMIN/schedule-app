@@ -19,6 +19,7 @@ signals:
 private:
     QNetworkAccessManager *m_network;
     QString m_ReqUrl;
+    QString m_token;
 };
 
 #endif // OPENCLAWCLIENT_H

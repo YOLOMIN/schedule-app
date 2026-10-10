@@ -44,3 +44,10 @@ qt_generate_deploy_app_script(
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
 install(SCRIPT ${deploy_script})
+
+# 编译后自动把 config 目录复制到 exe 旁边
+add_custom_command(TARGET personal-plan POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/config
+        $<TARGET_FILE_DIR:personal-plan>/config
+)

@@ -4,6 +4,8 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QNetworkReply>
+#include <QFile>
+#include <QCoreApplication>
 
 OpenClawClient::OpenClawClient(QObject *parent)
     : QObject{parent}
@@ -11,12 +13,21 @@ OpenClawClient::OpenClawClient(QObject *parent)
     m_network = new QNetworkAccessManager(this);
 
     m_ReqUrl ="http://127.0.0.1:18789/v1/chat/completions";
+
+    QString configPath = QCoreApplication::applicationDirPath()+"/config/token.txt";
+
+    QFile f(configPath);
+
+    if(f.open(QIODevice::ReadOnly|QIODevice::Text)){
+        m_token = f.readAll().trimmed();
+        f.close();
+    }
 }
 
 void OpenClawClient::sendMessage(const QString &text)
 {
     QNetworkRequest req{QUrl(m_ReqUrl)};
-    req.setRawHeader("Authorization","Bearer 5c4011e8c7c438b4ecd031747f5de6071dd10c8c56271bb6");
+    req.setRawHeader("Authorization",("Bearer "+ m_token).toUtf8());
 
     QJsonObject body;
     body["model"] = "openclaw/main";
