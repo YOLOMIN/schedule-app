@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_client,&OpenClawClient::replyReceived,this,&MainWindow::onReplyReceived);
 
     loadTodayPlan();
+    loadGoals();
 
     ui->stackedWidget->setCurrentIndex(0);
 }
@@ -88,6 +89,21 @@ void MainWindow::loadTodayPlan()
 
     }else{
         ui->planDisplay->setPlainText("暂无今日计划（找不到文件）");
+    }
+}
+
+void MainWindow::loadGoals()
+{
+    QString path = "C:/Users/Administrator/.openclaw/workspace/memory/长期任务.md";
+
+    QFile file(path);
+    if(file.open(QIODevice::ReadOnly|QIODevice::Text)){
+        QTextStream in(&file);
+        ui->goalDisplay->setPlainText(in.readAll());
+        file.close();
+
+    }else{
+       ui->goalDisplay->setPlainText("暂无长期任务（找不到文件）");
     }
 }
 

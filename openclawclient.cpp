@@ -22,6 +22,7 @@ OpenClawClient::OpenClawClient(QObject *parent)
         m_token = f.readAll().trimmed();
         f.close();
     }
+
 }
 
 void OpenClawClient::sendMessage(const QString &text)

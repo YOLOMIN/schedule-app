@@ -25,6 +25,7 @@ public:
 protected:
     void closeEvent(QCloseEvent *event) override;
     void loadTodayPlan();
+    void loadGoals();
 
 private slots:
     void onAddClicked();   // 点击「添加」按钮
