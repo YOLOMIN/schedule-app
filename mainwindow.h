@@ -33,6 +33,7 @@ private slots:
     void checkDueTasks();
     void onSendClicked();
     void onReplyReceived(const QString &reply);
+    void onTrayMessageClicked();
 
 private:
     Ui::MainWindow *ui;

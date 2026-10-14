@@ -63,6 +63,11 @@ MainWindow::MainWindow(QWidget *parent)
     loadGoals();
 
     ui->stackedWidget->setCurrentIndex(0);
+
+    m_tray->showMessage("今日计划", "今天的计划已就绪，点击查看", QSystemTrayIcon::Information, 8000);
+
+    connect(m_tray,&QSystemTrayIcon::messageClicked,this,&MainWindow::onTrayMessageClicked);
+
 }
 
 MainWindow::~MainWindow()
@@ -210,4 +215,13 @@ void MainWindow::onSendClicked()
 void MainWindow::onReplyReceived(const QString &reply)
 {
     ui->chatDisplay->append("OpenClaw:"+reply);
+}
+
+void MainWindow::onTrayMessageClicked()
+{
+    show();
+    raise();
+    activateWindow();
+    ui->navList->setCurrentRow(2);
+
 }
