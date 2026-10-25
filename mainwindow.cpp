@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_client = new OpenClawClient(this);
 
     connect(ui->sendButton,&QPushButton::clicked,this,&MainWindow::onSendClicked);
-
+    connect(ui->chatInput,&QLineEdit::returnPressed,this,&MainWindow::onSendClicked);
     connect(m_client,&OpenClawClient::replyReceived,this,&MainWindow::onReplyReceived);
 
     loadTodayPlan();
@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_tray,&QSystemTrayIcon::messageClicked,this,&MainWindow::onTrayMessageClicked);
 
+    connect(m_client, &OpenClawClient::errorOccurred, this, &MainWindow::onErrorOccurred);
 }
 
 MainWindow::~MainWindow()
@@ -224,4 +225,9 @@ void MainWindow::onTrayMessageClicked()
     activateWindow();
     ui->navList->setCurrentRow(2);
 
+}
+
+void MainWindow::onErrorOccurred(const QString &err)
+{
+    ui->chatDisplay->append("⚠ 出错了："+ err);
 }

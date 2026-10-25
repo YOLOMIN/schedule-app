@@ -51,6 +51,22 @@ void OpenClawClient::sendMessage(const QString &text)
     connect(reply,&QNetworkReply::finished,this,[this,reply](){
         QByteArray resp = reply->readAll();
         QJsonDocument doc = QJsonDocument::fromJson(resp);
+
+        QJsonObject obj = doc.object();
+
+        if(reply->error() != QNetworkReply::NoError){
+            emit errorOccurred(reply->errorString());
+            reply->deleteLater();
+            return;
+        }
+
+        if(obj.contains("error")){
+            QString msg = obj["error"].toObject()["message"].toString();
+            emit errorOccurred(msg.isEmpty()?"接口返回错误":msg);
+            reply->deleteLater();
+            return;
+        }
+
         QString content = doc["choices"][0]["message"]["content"].toString();
         reply->deleteLater();
         emit replyReceived(content);
