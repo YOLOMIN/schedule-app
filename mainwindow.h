@@ -35,6 +35,7 @@ private slots:
     void onReplyReceived(const QString &reply);
     void onTrayMessageClicked();
     void onErrorOccurred(const QString &err);
+    void onNavChanged(int row);
 
 private:
     Ui::MainWindow *ui;

@@ -61,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     loadTodayPlan();
     loadGoals();
+    connect(ui->navList,&QListWidget::currentRowChanged,this,&MainWindow::onNavChanged);
+
 
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -69,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_tray,&QSystemTrayIcon::messageClicked,this,&MainWindow::onTrayMessageClicked);
 
     connect(m_client, &OpenClawClient::errorOccurred, this, &MainWindow::onErrorOccurred);
+
 }
 
 MainWindow::~MainWindow()
@@ -230,4 +233,13 @@ void MainWindow::onTrayMessageClicked()
 void MainWindow::onErrorOccurred(const QString &err)
 {
     ui->chatDisplay->append("⚠ 出错了："+ err);
+}
+
+void MainWindow::onNavChanged(int row)
+{
+    if(row == 2){
+        loadTodayPlan();
+    }else if(row == 3){
+        loadGoals();
+    }
 }
